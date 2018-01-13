@@ -2,7 +2,7 @@ import React from 'react'
 
 class Register extends React.Component {
 
-  reder() {
+  render() {
     return <h2>注册页面</h2>
   }
 }

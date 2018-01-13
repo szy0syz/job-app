@@ -6,6 +6,9 @@ import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker';
 
+import Login from './container/login/login'
+import Register from './container/register/register'
+
 import reducers from './reduxer'
 import './config'
 
@@ -17,6 +20,10 @@ const store = createStore(reducers, compose(
 ReactDOM.render(
   (<Provider store={store}>
     <BrowserRouter>
+      <div>
+        <Route path="/login" component={Login}></Route>
+        <Route path="/register" component={Register}></Route>
+      </div>
     </BrowserRouter>
   </Provider>),
   document.getElementById('root')
