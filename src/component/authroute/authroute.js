@@ -1,14 +1,30 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { withRouter } from 'react-router-dom'
 
+@withRouter
 class AuthRoute extends Component {
   componentDidMount() {
+    // 判断是否跳转
+    const publicList = ['/login', '/register']
+    const pathname = this.props.location.pathname
+    if (publicList.indexOf(pathname) > -1) {
+      return null
+    }
+
     //先获取用户信息
     axios
       .get('/user/info')
       .then(res => {
         if (res.status === 200) {
-          console.log(res.data)
+          if (res.data.code === '1') {
+            // 有登录信息
+            console.log(res.data)
+          } else {
+            // 没有登录信息
+            this.props.history.push('/login')
+            console.log('你无权登录')
+          }
         }
       })
 
