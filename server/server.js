@@ -7,6 +7,9 @@ mongoose.connect(DB_URL);
 mongoose.connection.on('connected', function () {
   console.log('mongodb connect success')
 })
+mongoose.connection.on('error', function (e) {
+  console.log('mongodb connect error', e)
+})
 
 const User = mongoose.model('user', new mongoose.Schema({
   name: { type: String, require: true },
@@ -39,5 +42,5 @@ app.get('/user', function (req, res) {
 })
 
 app.listen(9093, function () {
-  console.log('Node app strat at port 9093');
+  console.log('Node app strat at port 9093...');
 })

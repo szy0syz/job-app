@@ -21,6 +21,7 @@ ReactDOM.render(
   (<Provider store={store}>
     <BrowserRouter>
       <div>
+        <AuthRoute></AuthRoute>
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
       </div>
