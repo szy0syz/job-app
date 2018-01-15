@@ -14,14 +14,11 @@ export function user(state = initState, action) {
   switch (action.type) {
     case REGISTER_SUCCESS:
       return { ...state, msg: '', isAuth: true, ...action.payload }
-      break;
     case ERROR_MSG:
       return { ...state, msg: action.msg, isAuth: false }
-      break;
     default:
       return state
   }
-  return state
 }
 
 function errorMsg(msg) {
