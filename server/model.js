@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const DB_URL = 'mongodb://localhost:27017/job-app'
-mongoose.connect(DB_URL);
+mongoose.connect(DB_URL, { // 加了options还warning
+  socketTimeoutMS: 0,
+  keepAlive: true,
+  reconnectTries: 30
+})
 
 mongoose.connection.on('connected', function () {
   console.log('mongodb connect success')
