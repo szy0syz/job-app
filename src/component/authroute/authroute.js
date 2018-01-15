@@ -17,7 +17,7 @@ class AuthRoute extends Component {
       .get('/user/info')
       .then(res => {
         if (res.status === 200) {
-          if (res.data.code === '1') {
+          if (res.data.code === '0') {
             // 有登录信息
             console.log(res.data)
           } else {
@@ -35,7 +35,7 @@ class AuthRoute extends Component {
   }
 
   render() {
-    return <p>判断跳转</p>
+    return null
   }
 }
 
