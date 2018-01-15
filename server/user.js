@@ -5,9 +5,21 @@ const Model = require('./model')
 const User = Model.getModel('user')
 
 Router.get('/list', function (req, res) {
+  // 清除数据库
+  //User.remove({}, function (e, d) { })
   User.find({}, function (err, docs) {
     if (err) return res.json({ code: 1, msg: '查询User数据出错' })
     return res.json(docs)
+  })
+})
+
+Router.post('/login', function (req, res) {
+  const { user, pwd } = req.body
+  User.findOne({ user, pwd: md5Pwd(pwd) }, function (e, d) {
+    if (!d) {
+      return res.json({ code: 4, msg: '用户名或密码错误' })
+    }
+    return res.json({ code: 0, data: d, msg: '登录成功' })
   })
 })
 
