@@ -15,11 +15,12 @@ Router.get('/list', function (req, res) {
 
 Router.post('/login', function (req, res) {
   const { user, pwd } = req.body
-  // mongoose 第一个是查询条件，第二个是显示条件，第三个才是回调函数
-  User.findOne({ user, pwd: md5Pwd(pwd) }, { pwd: 0, __v: 0, _id: 0 }, function (e, d) {
+  // mongoose 第一个是查询条件，第二个是显示条件，第三个才是回调函数,有漏洞
+  User.findOne({ user, pwd: md5Pwd(pwd) }, { pwd: 0 }, function (e, d) {
     if (!d) {
       return res.json({ code: 4, msg: '用户名或密码错误' })
     }
+    res.cookie('userid', d._id)
     return res.json({ code: 0, data: d, msg: '登录成功' })
   })
 })
