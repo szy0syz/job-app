@@ -1,9 +1,10 @@
 import { getRedirectPath } from '../util'
-const axios = require('axios')
+import axios from 'axios'
 
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 const ERROR_MSG = 'ERROR_MSG'
+const LOAD_DATA = 'LOAD_DATA'
 
 const initState = {
   redirectTo: '', // 用户应该跳转到哪个页面
@@ -19,6 +20,8 @@ export function user(state = initState, action) {
       return { ...state, msg: '', redirectTo: getRedirectPath(action.payload), isAuth: true, ...action.payload }
     case LOGIN_SUCCESS:
       return { ...state, msg: '', redirectTo: getRedirectPath(action.payload), isAuth: true, ...action.payload }
+    case LOAD_DATA:
+      return { ...state, ...action.payload }
     case ERROR_MSG:
       return { ...state, msg: action.msg, redirectTo: '', isAuth: false }
     default:
@@ -36,6 +39,27 @@ function registerSuccess(data) {
 
 function loginSuccess(data) {
   return { type: LOGIN_SUCCESS, payload: data }
+}
+
+export function userinfo() {
+  return dispatch => {
+    //先获取用户信息
+    axios
+      .get('/user/info')
+      .then(res => {
+        if (res.status === 200) {
+          if (res.data.code === '0') {
+            // 有登录信息
+            console.log(res.data)
+          } else {
+            // 没有登录信息
+
+            this.props.history.push('/login')
+          }
+        }
+      })
+  }
+
 }
 
 export function login({ user, pwd }) {

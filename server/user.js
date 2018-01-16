@@ -3,6 +3,7 @@ const utility = require('utility')
 const Router = express.Router()
 const Model = require('./model')
 const User = Model.getModel('user')
+const _filter = { 'pwd': 0, '__v': 0 }
 
 Router.get('/list', function (req, res) {
   // 清除数据库
@@ -12,11 +13,11 @@ Router.get('/list', function (req, res) {
     return res.json(docs)
   })
 })
-
+// 6-12 09:40 ....
 Router.post('/login', function (req, res) {
   const { user, pwd } = req.body
   // mongoose 第一个是查询条件，第二个是显示条件，第三个才是回调函数,有漏洞
-  User.findOne({ user, pwd: md5Pwd(pwd) }, { pwd: 0 }, function (e, d) {
+  User.findOne({ user, pwd: md5Pwd(pwd) }, _filter, function (e, d) {
     if (!d) {
       return res.json({ code: 4, msg: '用户名或密码错误' })
     }
@@ -42,7 +43,18 @@ Router.post('/register', function (req, res) {
 })
 
 Router.get('/info', function (req, res) {
-  return res.json({ code: 0, msg: 'ok' })
+  const { userid } = req.cookies
+  if (!userid) {
+    return res.json({ code: 1, msg: '没有登录过' })
+  }
+  User.findOne({ _id: userid }, _filter, function (err, doc) {
+    if (err) { return res.json({ code: 5, msg: '数据库找不到你的数据' }) }
+    if (doc) {
+      return res.json({ code: 0, data: doc })
+    }
+    return res.json({ code: 5, msg: '数据库找不到你的数据' })
+  })
+  // return res.json({ code: 0, msg: 'ok' })
 })
 
 function md5Pwd(pwd) {

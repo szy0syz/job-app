@@ -1,6 +1,6 @@
 import { Component } from 'react'
-import axios from 'axios'
 import { withRouter } from 'react-router-dom'
+import { loadData } from '../../redux/user.redux'
 
 @withRouter
 class AuthRoute extends Component {
@@ -12,21 +12,21 @@ class AuthRoute extends Component {
       return null
     }
 
-    //先获取用户信息
-    axios
-      .get('/user/info')
-      .then(res => {
-        if (res.status === 200) {
-          if (res.data.code === '0') {
-            // 有登录信息
-            console.log(res.data)
-          } else {
-            // 没有登录信息
-            this.props.history.push('/login')
-            console.log('你无权登录')
-          }
-        }
-      })
+    // //先获取用户信息
+    // axios
+    //   .get('/user/info')
+    //   .then(res => {
+    //     if (res.status === 200) {
+    //       if (res.data.code === '0') {
+    //         // 有登录信息
+    //         console.log(res.data)
+    //       } else {
+    //         // 没有登录信息
+    //         this.props.history.push('/login')
+    //         console.log('你无权登录')
+    //       }
+    //     }
+    //   })
 
     // 状态：是否登录
     // 现在的url地址：logo是否需要跳转的
