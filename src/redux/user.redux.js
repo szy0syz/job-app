@@ -10,7 +10,6 @@ const initState = {
   redirectTo: '', // 用户应该跳转到哪个页面
   isAuth: false,
   msg: '',
-  pwd: '',
   type: ''
 }
 // reducer
@@ -41,24 +40,26 @@ function loginSuccess(data) {
   return { type: LOGIN_SUCCESS, payload: data }
 }
 
-export function userinfo() {
-  return dispatch => {
-    //先获取用户信息
-    axios
-      .get('/user/info')
-      .then(res => {
-        if (res.status === 200) {
-          if (res.data.code === '0') {
-            // 有登录信息
-            console.log(res.data)
-          } else {
-            // 没有登录信息
+export function loadData(userinfo) {
+  return { type: LOAD_DATA, payload: userinfo }
 
-            this.props.history.push('/login')
-          }
-        }
-      })
-  }
+  // return dispatch => {
+  //   //先获取用户信息
+  //   axios
+  //     .get('/user/info')
+  //     .then(res => {
+  //       if (res.status === 200) {
+  //         if (res.data.code === '0') {
+  //           // 有登录信息
+  //           console.log(res.data)
+  //         } else {
+  //           // 没有登录信息
+
+  //           this.props.history.push('/login')
+  //         }
+  //       }
+  //     })
+  // }
 
 }
 

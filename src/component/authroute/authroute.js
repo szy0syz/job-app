@@ -1,8 +1,14 @@
 import { Component } from 'react'
+import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { loadData } from '../../redux/user.redux'
+import { connect } from 'react-redux'
 
 @withRouter
+@connect(
+  null,
+  { loadData }
+)
 class AuthRoute extends Component {
   componentDidMount() {
     // 判断是否跳转
@@ -11,22 +17,23 @@ class AuthRoute extends Component {
     if (publicList.indexOf(pathname) > -1) {
       return null
     }
-
-    // //先获取用户信息
-    // axios
-    //   .get('/user/info')
-    //   .then(res => {
-    //     if (res.status === 200) {
-    //       if (res.data.code === '0') {
-    //         // 有登录信息
-    //         console.log(res.data)
-    //       } else {
-    //         // 没有登录信息
-    //         this.props.history.push('/login')
-    //         console.log('你无权登录')
-    //       }
-    //     }
-    //   })
+  
+    //先获取用户信息
+    axios
+      .get('/user/info')
+      .then(res => {
+        if (res.status === 200) {
+          if (res.data.code === 0) {
+            // 有登录信息
+            console.log('有登录信息')
+            this.props.loadData(res.data.data)
+          } else {
+            // 没有登录信息
+            this.props.history.push('/login')
+            console.log('你无权登录')
+          }
+        }
+      })
 
     // 状态：是否登录
     // 现在的url地址：logo是否需要跳转的
