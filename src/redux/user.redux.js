@@ -42,25 +42,6 @@ function loginSuccess(data) {
 
 export function loadData(userinfo) {
   return { type: LOAD_DATA, payload: userinfo }
-
-  // return dispatch => {
-  //   //先获取用户信息
-  //   axios
-  //     .get('/user/info')
-  //     .then(res => {
-  //       if (res.status === 200) {
-  //         if (res.data.code === '0') {
-  //           // 有登录信息
-  //           console.log(res.data)
-  //         } else {
-  //           // 没有登录信息
-
-  //           this.props.history.push('/login')
-  //         }
-  //       }
-  //     })
-  // }
-
 }
 
 export function login({ user, pwd }) {
@@ -71,7 +52,7 @@ export function login({ user, pwd }) {
     axios
       .post('/user/login', { user, pwd })
       .then(res => {
-        if (res.status === 200 && res.data.code === '0') {
+        if (res.status === 200 && res.data.code === 0) {
           dispatch(loginSuccess(res.data.data))
         } else {
           dispatch(errorMsg(res.data.msg))
