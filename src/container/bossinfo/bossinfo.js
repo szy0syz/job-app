@@ -1,7 +1,14 @@
 import React from 'react';
 import { NavBar, InputItem, TextareaItem, Button } from 'antd-mobile'
 import AvatarSelector from '../../component/avatar-selector'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import { update } from '../../redux/user.redux'
 
+@connect(
+  state => state.user,
+  { update }
+)
 class BossInfo extends React.Component {
   constructor(props) {
     super(props)
@@ -24,10 +31,8 @@ class BossInfo extends React.Component {
   render() {
     return (
       <div>
-        <NavBar
-          mode="dark"
-          leftContent=" < "
-        >NavBar</NavBar>
+        {this.props.redirectTo ? <Redirect to={this.props.redirectTo}></Redirect> : null}
+        <NavBar mode="dark" leftContent=" < ">NavBar</NavBar>
         <AvatarSelector
           selectAvatar={(imgname) => {
             this.setState({ avatar: imgname })
@@ -48,7 +53,13 @@ class BossInfo extends React.Component {
           autoHeight
           onChange={(v) => this.onChange('desc', v)}
         ></TextareaItem>
-        <Button type="primary">保  存</Button>
+        <Button
+          onClick={() => {
+            // 注意了，我要用redux了啊!!!!!
+            this.props.update(this.state)
+          }}
+          type="primary"
+        >保  存</Button>
       </div>
     )
   }
