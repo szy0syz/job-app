@@ -9,7 +9,8 @@ class BossInfo extends React.Component {
       title: '',
       company: '',
       money: '',
-      desc: ''
+      desc: '',
+      avatar: ''
     }
     this.onChange = this.onChange.bind(this)
   }
@@ -27,7 +28,11 @@ class BossInfo extends React.Component {
           mode="dark"
           leftContent=" < "
         >NavBar</NavBar>
-        <AvatarSelector></AvatarSelector>
+        <AvatarSelector
+          selectAvatar={(imgname) => {
+            this.setState({ avatar: imgname })
+          }}
+        ></AvatarSelector>
         <InputItem
           onChange={(v) => this.onChange('titel', v)}
         >招聘职位</InputItem>
